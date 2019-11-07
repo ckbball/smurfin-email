@@ -4,6 +4,7 @@ import (
   "bytes"
   "context"
   "encoding/gob"
+  "github.com/Shopify/sarama"
   "github.com/ThreeDotsLabs/watermill"
   "github.com/ThreeDotsLabs/watermill-kafka/v2/pkg/kafka"
   "github.com/ThreeDotsLabs/watermill/message"
@@ -11,3 +12,9 @@ import (
   pb "github.com/ckbball/smurfin-checkout/proto/checkout"
   "time"
 )
+
+func main() {
+  // kafka subscriber
+  // user-service client
+  //
+}

@@ -12,3 +12,27 @@ import (
   pb "github.com/ckbball/smurfin-checkout/proto/checkout"
   "time"
 )
+
+type EmailAccountEvent struct {
+  BuyerId              string
+  AccountLogin         string
+  AccountPassword      string
+  AccountEmail         string
+  AccountEmailPassword string
+}
+
+func InitSubscriber(config kafka.SubscriberConfig) *kafka.Subscriber {
+  subscriber, err := kafka.NewSubscriber(
+    kafka.SubscriberConfig{
+      Brokers:               []string{"kafka:9092"},
+      Unmarshaler:           kafka.DefaultMarshaler{},
+      OverwriteSaramaConfig: config,
+      ConsumerGroup:         "test_consumer_group",
+    },
+    watermill.NewStdLogger(false, false),
+  )
+  if err != nil {
+    panic(err)
+  }
+  return subscriber
+}
