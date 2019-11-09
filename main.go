@@ -1,15 +1,13 @@
 package main
 
 import (
-  //"bytes"
-  //"context"
-  //"encoding/gob"
+  "encoding/json"
   "fmt"
   "github.com/Shopify/sarama"
+  "github.com/ThreeDotsLabs/watermill"
+  "github.com/ThreeDotsLabs/watermill-kafka/v2/pkg/kafka"
+  "github.com/ThreeDotsLabs/watermill/message"
   /*
-     "github.com/ThreeDotsLabs/watermill"
-     "github.com/ThreeDotsLabs/watermill-kafka/v2/pkg/kafka"
-     "github.com/ThreeDotsLabs/watermill/message"
      catalogProto "github.com/ckbball/smurfin-catalog/proto/catalog"
      pb "github.com/ckbball/smurfin-checkout/proto/checkout"
   */
@@ -64,11 +62,9 @@ func process(sub *kafka.Subscriber, conf *EmailConfig, client *UserServiceClient
   // when a message is received:
   for msg := range messages {
     // decode msg payload back into struct
-    var network bytes.Buffer
     var ea EmailAccountEvent
-    network.Write(msg.payload)
-    dec := gob.NewDecoder(&network)
-    err = dec.Decode(&ea)
+
+    err = json.Unmarshal(msg.Payload, &ea)
     if err != nil {
       log.Fatal("decode error: ", err)
     }
